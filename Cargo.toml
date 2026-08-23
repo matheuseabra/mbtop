@@ -12,7 +12,7 @@ categories = ["command-line-utilities", "os"]
 [dependencies]
 crossterm = "0.29"
 ratatui = { version = "0.30", default-features = false, features = ["crossterm"] }
-sysinfo = "0.37"
+sysinfo = "0.39"
 
 [profile.release]
 codegen-units = 1
