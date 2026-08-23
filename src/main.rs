@@ -124,7 +124,7 @@ impl App {
 
         let title = Line::from(vec![
             Span::styled(" mbtop ", title_style()),
-            Span::styled(format!("· {} ", self.host), muted_style()),
+            Span::styled(format!("· {} ", self.host), label_style()),
         ]);
         let block = Block::bordered()
             .border_type(BorderType::Rounded)
@@ -370,19 +370,19 @@ fn gradient_color(percent: f32) -> Color {
 fn metric_name(metric: Metric, icons: bool) -> &'static str {
     if icons {
         match metric {
-            Metric::Cpu => "◉",
-            Metric::Memory => "▤",
-            Metric::Disk => "◫",
+            Metric::Cpu => "▣",
+            Metric::Memory => "▥",
+            Metric::Disk => "▭",
             Metric::Load => "≋",
-            Metric::Network => "⇅",
+            Metric::Network => "↕",
         }
     } else {
         match metric {
-            Metric::Cpu => "CPU",
-            Metric::Memory => "MEM",
-            Metric::Disk => "DISK",
-            Metric::Load => "LOAD",
-            Metric::Network => "NET",
+            Metric::Cpu => "cpu",
+            Metric::Memory => "mem",
+            Metric::Disk => "disk",
+            Metric::Load => "load",
+            Metric::Network => "net",
         }
     }
 }
@@ -608,8 +608,8 @@ mod tests {
 
     #[test]
     fn icon_mode_replaces_text_labels() {
-        assert_eq!(metric_name(Metric::Cpu, false), "CPU");
-        assert_eq!(metric_name(Metric::Cpu, true), "◉");
-        assert_eq!(metric_name(Metric::Network, true), "⇅");
+        assert_eq!(metric_name(Metric::Cpu, false), "cpu");
+        assert_eq!(metric_name(Metric::Cpu, true), "▣");
+        assert_eq!(metric_name(Metric::Network, true), "↕");
     }
 }
