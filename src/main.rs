@@ -37,7 +37,7 @@ enum Metric {
     Network,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 struct Config {
     disk_path: Option<PathBuf>,
     interval: Duration,
@@ -263,7 +263,7 @@ fn render_cpu(frame: &mut Frame, area: Rect, cpu: f32, history: &VecDeque<f32>, 
         .collect();
     frame.render_widget(
         Sparkline::default()
-            .data(data.iter().cloned())
+            .data(data)
             .max(100)
             .bar_set(symbols::bar::NINE_LEVELS)
             .style(default_style()),
@@ -297,18 +297,19 @@ fn render_gauge(
 
 fn render_too_small(frame: &mut Frame, area: Rect) {
     frame.render_widget(Clear, area);
-    let message = vec![
-        Line::from(Span::styled("mbtop needs more room", title_style())),
-        Line::from(Span::styled(
-            format!(
-                "minimum {}×{}, now {}×{}",
-                MIN_WIDTH, MIN_HEIGHT, area.width, area.height
-            ),
-            muted_style(),
-        )),
-    ];
+    let title = Line::from(Span::styled("mbtop needs more room", title_style()));
 
     if area.height >= 3 {
+        let message = vec![
+            title,
+            Line::from(Span::styled(
+                format!(
+                    "minimum {}×{}, now {}×{}",
+                    MIN_WIDTH, MIN_HEIGHT, area.width, area.height
+                ),
+                muted_style(),
+            )),
+        ];
         let [_, centered, _] = Layout::vertical([
             Constraint::Fill(1),
             Constraint::Length(2),
@@ -320,10 +321,7 @@ fn render_too_small(frame: &mut Frame, area: Rect) {
             centered,
         );
     } else {
-        frame.render_widget(
-            Paragraph::new(message[0].clone()).alignment(Alignment::Center),
-            area,
-        );
+        frame.render_widget(Paragraph::new(title).alignment(Alignment::Center), area);
     }
 }
 
@@ -587,29 +585,63 @@ mod tests {
     use super::*;
 
     #[test]
-    fn formats_bytes_compactly() {
+    fn bytes_formats_zero_as_bytes() {
         assert_eq!(bytes(0), "0B");
+    }
+
+    #[test]
+    fn bytes_formats_binary_units_compactly() {
         assert_eq!(bytes(1024), "1.0K");
         assert_eq!(bytes(5 * 1024 * 1024), "5.0M");
     }
 
     #[test]
-    fn percentage_handles_empty_metrics() {
+    fn percentage_returns_zero_for_empty_metrics() {
         assert_eq!(percentage(1, 0), 0.0);
+    }
+
+    #[test]
+    fn percentage_returns_used_ratio() {
         assert_eq!(percentage(25, 100), 25.0);
     }
 
     #[test]
     fn chart_gradient_uses_terminal_palette_entries() {
-        assert_eq!(gradient_color(10.0), Color::Cyan);
-        assert_eq!(gradient_color(70.0), Color::Yellow);
-        assert_eq!(gradient_color(90.0), Color::Red);
+        assert_eq!(
+            [
+                gradient_color(10.0),
+                gradient_color(70.0),
+                gradient_color(90.0)
+            ],
+            [Color::Cyan, Color::Yellow, Color::Red]
+        );
     }
 
     #[test]
-    fn icon_mode_replaces_text_labels() {
-        assert_eq!(metric_name(Metric::Cpu, false), "cpu");
-        assert_eq!(metric_name(Metric::Cpu, true), "▣");
-        assert_eq!(metric_name(Metric::Network, true), "↕");
+    fn text_metric_labels_are_compact() {
+        assert_eq!(
+            [
+                metric_name(Metric::Cpu, false),
+                metric_name(Metric::Memory, false),
+                metric_name(Metric::Disk, false),
+                metric_name(Metric::Load, false),
+                metric_name(Metric::Network, false),
+            ],
+            ["cpu", "mem", "disk", "load", "net"]
+        );
+    }
+
+    #[test]
+    fn icon_metric_labels_are_monochrome_symbols() {
+        assert_eq!(
+            [
+                metric_name(Metric::Cpu, true),
+                metric_name(Metric::Memory, true),
+                metric_name(Metric::Disk, true),
+                metric_name(Metric::Load, true),
+                metric_name(Metric::Network, true),
+            ],
+            ["▣", "▥", "▭", "≋", "↕"]
+        );
     }
 }
