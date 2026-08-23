@@ -4,6 +4,8 @@
 [![Version](https://img.shields.io/badge/version-v0.1.0-informational?logo=rust)](https://github.com/matheuseabra/mbtop/releases)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
+![mbtop demo](docs/mbtop.gif)
+
 `mbtop` is a tiny, fast system monitor made for small terminal panes. It shows the signals that are useful at a glance without trying to become another process manager:
 
 - CPU usage with a short history sparkline
@@ -12,7 +14,6 @@
 - aggregate network receive/transmit rate
 - uptime and CPU count
 
-![mbtop demo](docs/mbtop.gif)
 
 The UI inherits the terminal's default foreground and background. It uses only semantic ANSI palette colors for muted and warning states, so it stays at home in a custom terminal theme. The compact card needs at least `44×8`; if a pane shrinks below that, mbtop centers a resize hint until there is room again.
 
