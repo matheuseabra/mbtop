@@ -1,7 +1,7 @@
 # mbtop
 
 [![CI](https://github.com/matheuseabra/mbtop/actions/workflows/ci.yml/badge.svg)](https://github.com/matheuseabra/mbtop/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/version-v0.1.2-informational?logo=rust)](https://github.com/matheuseabra/mbtop/releases)
+[![Version](https://img.shields.io/badge/version-v0.1.3-informational?logo=rust)](https://github.com/matheuseabra/mbtop/releases)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ![mbtop demo](docs/mbtop.gif)
@@ -50,7 +50,7 @@ cargo run --release
 ## Usage
 
 ```text
-mbtop 0.1.2 — tiny system monitor for terminal dashboard panes
+mbtop 0.1.3 — tiny system monitor for terminal dashboard panes
 
 Usage: mbtop [OPTIONS]
 

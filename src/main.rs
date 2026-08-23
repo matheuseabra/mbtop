@@ -175,13 +175,13 @@ impl App {
             );
         } else {
             frame.render_widget(
-                Paragraph::new(Line::from(Span::styled(
-                    format!(
-                        "{} unavailable",
-                        metric_name(Metric::Disk, self.config.icons)
+                Paragraph::new(Line::from(vec![
+                    Span::styled(
+                        format!("{} ", metric_name(Metric::Disk, self.config.icons)),
+                        metric_style(self.config.icons),
                     ),
-                    muted_style(),
-                ))),
+                    Span::styled("unavailable", muted_style()),
+                ])),
                 disk_area,
             );
         }
@@ -194,7 +194,7 @@ impl App {
             Paragraph::new(Line::from(vec![
                 Span::styled(
                     format!("{} ", metric_name(Metric::Load, self.config.icons)),
-                    label_style(),
+                    metric_style(self.config.icons),
                 ),
                 Span::raw(format!(
                     "{:.2} {:.2} {:.2}",
@@ -207,7 +207,7 @@ impl App {
             Paragraph::new(Line::from(vec![
                 Span::styled(
                     format!("{} ", metric_name(Metric::Network, self.config.icons)),
-                    label_style(),
+                    metric_style(self.config.icons),
                 ),
                 Span::raw(format!(
                     "↓{} ↑{}",
@@ -221,14 +221,17 @@ impl App {
         let [_, footer] =
             Layout::vertical([Constraint::Fill(1), Constraint::Length(1)]).areas(footer_area);
         frame.render_widget(
-            Paragraph::new(Line::from(Span::styled(
-                format!(
-                    "up {} · {} cores · q quit",
-                    uptime(),
-                    self.system.cpus().len()
+            Paragraph::new(Line::from(vec![
+                Span::styled("up ", label_style()),
+                Span::styled(uptime(), default_style()),
+                Span::styled(" · ", label_style()),
+                Span::styled(
+                    format!("{} cores", self.system.cpus().len()),
+                    default_style(),
                 ),
-                muted_style(),
-            ))),
+                Span::styled(" · ", label_style()),
+                Span::styled("q quit", label_style()),
+            ])),
             footer,
         );
     }
@@ -244,7 +247,7 @@ fn render_cpu(frame: &mut Frame, area: Rect, cpu: f32, history: &VecDeque<f32>, 
         Paragraph::new(Line::from(vec![
             Span::styled(
                 format!("{} ", metric_name(Metric::Cpu, icons)),
-                label_style(),
+                metric_style(icons),
             ),
             Span::styled(format!("{cpu:>5.1}%"), value_style(cpu)),
         ])),
@@ -278,7 +281,10 @@ fn render_gauge(
 ) {
     let gauge = LineGauge::default()
         .label(Line::from(vec![
-            Span::styled(format!("{} ", metric_name(metric, icons)), label_style()),
+            Span::styled(
+                format!("{} ", metric_name(metric, icons)),
+                metric_style(icons),
+            ),
             Span::styled(value, value_style(percent)),
         ]))
         .ratio((percent / 100.0).clamp(0.0, 1.0) as f64)
@@ -337,6 +343,15 @@ fn muted_style() -> Style {
 
 fn label_style() -> Style {
     Style::default().fg(Color::Gray)
+}
+
+fn metric_style(icons: bool) -> Style {
+    let style = label_style();
+    if icons {
+        style.add_modifier(Modifier::BOLD)
+    } else {
+        style
+    }
 }
 
 fn value_style(percent: f32) -> Style {
