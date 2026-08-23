@@ -336,7 +336,7 @@ fn muted_style() -> Style {
 }
 
 fn label_style() -> Style {
-    muted_style()
+    Style::default().fg(Color::Gray)
 }
 
 fn value_style(percent: f32) -> Style {
