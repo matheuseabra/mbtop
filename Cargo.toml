@@ -1,0 +1,20 @@
+[package]
+name = "mbtop"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.88"
+description = "A tiny, fast system monitor for terminal dashboard panes"
+license = "MIT"
+readme = "README.md"
+keywords = ["terminal", "monitor", "system", "tui", "tmux"]
+categories = ["command-line-utilities", "os"]
+
+[dependencies]
+crossterm = "0.29"
+ratatui = { version = "0.30", default-features = false, features = ["crossterm"] }
+sysinfo = "0.37"
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+strip = true

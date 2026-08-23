@@ -1,0 +1,45 @@
+name: Bug report
+description: Report a reproducible problem with mbtop
+title: "bug: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a problem. Please avoid posting private hostnames, paths, or logs containing secrets.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Include the expected and actual behavior.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: mbtop version
+      placeholder: "0.1.0 or commit SHA"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, terminal, multiplexer, and terminal size if relevant.
+      placeholder: "macOS 15, Ghostty, tmux, 80x24"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Run ...
+        2. Resize ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Remove sensitive values before posting.
