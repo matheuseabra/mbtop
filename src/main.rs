@@ -25,7 +25,7 @@ use sysinfo::{CpuRefreshKind, Disks, MemoryRefreshKind, Networks, RefreshKind, S
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 const HISTORY_LEN: usize = 28;
 const DEFAULT_INTERVAL: Duration = Duration::from_secs(1);
-const MIN_WIDTH: u16 = 44;
+const MIN_WIDTH: u16 = 36;
 const MIN_HEIGHT: u16 = 8;
 
 #[derive(Debug, Clone, Copy)]

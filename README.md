@@ -1,7 +1,7 @@
 # mbtop
 
 [![CI](https://github.com/matheuseabra/mbtop/actions/workflows/ci.yml/badge.svg)](https://github.com/matheuseabra/mbtop/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/version-v0.1.0-informational?logo=rust)](https://github.com/matheuseabra/mbtop/releases)
+[![Version](https://img.shields.io/badge/version-v0.1.1-informational?logo=rust)](https://github.com/matheuseabra/mbtop/releases)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ![mbtop demo](docs/mbtop.gif)
@@ -15,7 +15,7 @@
 - uptime and CPU count
 
 
-The UI inherits the terminal's default foreground and background. It uses only semantic ANSI palette colors for muted and warning states, so it stays at home in a custom terminal theme. The compact card needs at least `44×8`; if a pane shrinks below that, mbtop centers a resize hint until there is room again.
+The UI inherits the terminal's default foreground and background. It uses only semantic ANSI palette colors for muted and warning states, so it stays at home in a custom terminal theme. The compact card needs at least `36×8`; if a pane shrinks below that, mbtop centers a resize hint until there is room again.
 
 The renderer uses [Ratatui](https://ratatui.rs/) primitives for the CPU sparkline, memory/disk gauges, rounded borders, and resize-aware layout. See [the design research notes](docs/terminal-ui-research.md) for the comparison with btop's graph and theme choices.
 
@@ -35,6 +35,12 @@ With Rust installed:
 cargo install --path .
 ```
 
+With Homebrew on macOS:
+
+```sh
+brew install matheuseabra/tap/mbtop
+```
+
 Or run it from a checkout:
 
 ```sh
@@ -44,7 +50,7 @@ cargo run --release
 ## Usage
 
 ```text
-mbtop 0.1.0 — tiny system monitor for terminal dashboard panes
+mbtop 0.1.1 — tiny system monitor for terminal dashboard panes
 
 Usage: mbtop [OPTIONS]
 

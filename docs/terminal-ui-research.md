@@ -23,4 +23,4 @@ The default layout is intentionally five content rows inside one rounded block:
 4. Load averages and network rate side by side.
 5. Uptime, CPU count, and quit hint.
 
-The minimum supported outer area is `44×8`. Below either dimension, the app renders a centered size message and redraws immediately on `Event::Resize`.
+The minimum supported outer area is `36×8`. Below either dimension, the app renders a centered size message and redraws immediately on `Event::Resize`.
