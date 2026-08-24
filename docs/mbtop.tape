@@ -1,4 +1,4 @@
-# Build first with: cargo build --release --locked
+# Requires mbtop on PATH (e.g. brew install matheuseabra/tap/mbtop)
 Output docs/mbtop.gif
 
 Set FontSize 14
@@ -8,7 +8,7 @@ Set Padding 16
 Set Theme "Catppuccin Mocha"
 Set TypingSpeed 0
 
-Type "target/release/mbtop --icon --interval 500"
+Type "mbtop --icon --interval 500"
 Enter
 Sleep 5s
 Ctrl+C
