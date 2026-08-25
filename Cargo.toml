@@ -1,6 +1,6 @@
 [package]
 name = "mbtop"
-version = "0.1.4"
+version = "0.1.5"
 edition = "2021"
 rust-version = "1.88"
 description = "A tiny, fast system monitor for terminal dashboard panes"
@@ -13,6 +13,23 @@ categories = ["command-line-utilities", "os"]
 crossterm = "0.29"
 ratatui = { version = "0.30", default-features = false, features = ["crossterm"] }
 sysinfo = "0.39"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+# Formatting and gauges round sampled counters for display; losing precision is intended.
+cast_possible_truncation = "allow"
+cast_precision_loss = "allow"
+cast_sign_loss = "allow"
+cast_possible_wrap = "allow"
+# Short type names read clearer than cli::Config-style prefixes in a crate this small.
+module_name_repetitions = "allow"
+# Getters and pure formators are obvious from their use sites.
+must_use_candidate = "allow"
 
 [profile.release]
 codegen-units = 1
