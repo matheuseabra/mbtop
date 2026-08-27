@@ -46,10 +46,14 @@ pub fn render(frame: &mut Frame, stats: &Stats) {
         Span::styled(" mbtop ", title_style()),
         Span::styled(format!("· {} ", stats.host), label_style()),
     ]);
-    let block = Block::bordered()
-        .border_type(BorderType::Rounded)
-        .border_style(default_style())
-        .title(title);
+    let block = if stats.borderless {
+        Block::new().title(title)
+    } else {
+        Block::bordered()
+            .border_type(BorderType::Rounded)
+            .border_style(default_style())
+            .title(title)
+    };
     let inner = block.inner(area);
     frame.render_widget(block, area);
 
@@ -333,6 +337,7 @@ mod tests {
             },
             uptime_seconds: 4 * 86_400 + 5 * 60,
             icons: false,
+            borderless: false,
         }
     }
 
@@ -349,6 +354,17 @@ mod tests {
         for label in ["cpu", "mem", "disk", "load", "net", "q quit", "test-host"] {
             assert!(screen.contains(label), "missing {label} in:\n{screen}");
         }
+    }
+
+    #[test]
+    fn borderless_mode_omits_outer_border() {
+        let stats = Stats {
+            borderless: true,
+            ..sample_stats()
+        };
+        let screen = draw(80, 12, &stats);
+        assert!(screen.contains("mbtop"), "title missing in:\n{screen}");
+        assert!(!screen.contains("╭"), "border present in:\n{screen}");
     }
 
     #[test]

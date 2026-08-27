@@ -25,6 +25,12 @@ Use `--icon` for compact glyph labels when the pane is especially narrow:
 mbtop --icon
 ```
 
+Use `--borderless` when the surrounding terminal layout already provides a frame:
+
+```sh
+mbtop --borderless
+```
+
 Charts use a terminal-palette gradient from cyan through green and yellow to red as values rise.
 
 ## Install
@@ -58,6 +64,7 @@ Options:
   -d, --disk <PATH>       Disk mount or path to report (default: /)
   -i, --interval <MS>     Refresh interval in milliseconds (default: 1000)
       --icon              Use compact Unicode glyphs instead of text labels
+      --borderless        Omit the dashboard's outer border
   -h, --help              Show this help
   -V, --version           Show version
 
