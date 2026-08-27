@@ -30,6 +30,8 @@ pub struct Config {
     pub interval: Duration,
     /// Use compact Unicode glyphs instead of text labels.
     pub icons: bool,
+    /// Omit the dashboard's outer border.
+    pub borderless: bool,
 }
 
 /// Parses command-line arguments, without the program name.
@@ -49,6 +51,7 @@ pub struct Config {
 ///         disk_path: None,
 ///         interval: DEFAULT_INTERVAL,
 ///         icons: false,
+///         borderless: false,
 ///     })
 /// );
 /// ```
@@ -64,6 +67,7 @@ where
     let mut disk_path = None;
     let mut interval = DEFAULT_INTERVAL;
     let mut icons = false;
+    let mut borderless = false;
     let mut args = args.into_iter();
 
     while let Some(arg) = args.next() {
@@ -85,6 +89,7 @@ where
                 interval = Duration::from_millis(milliseconds);
             }
             "--icon" => icons = true,
+            "--borderless" => borderless = true,
             unknown => return Err(format!("unknown argument: {unknown}\nTry 'mbtop --help'")),
         }
     }
@@ -93,6 +98,7 @@ where
         disk_path,
         interval,
         icons,
+        borderless,
     }))
 }
 
@@ -105,6 +111,7 @@ Options:\n\
   -d, --disk <PATH>       Disk mount or path to report (default: /)\n\
   -i, --interval <MS>     Refresh interval in milliseconds (default: 1000)\n\
       --icon              Use compact Unicode glyphs instead of text labels\n\
+      --borderless        Omit the dashboard's outer border\n\
   -h, --help              Show this help\n\
   -V, --version           Show version\n\n\
 Keys: q / Esc / Ctrl-C to quit"
@@ -114,4 +121,27 @@ Keys: q / Esc / Ctrl-C to quit"
 /// `--version` line.
 pub fn version_text() -> String {
     format!("mbtop {VERSION}")
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn borderless_flag_is_enabled() {
+        assert_eq!(
+            parse(["--borderless".to_string()]),
+            Ok(Action::Run(Config {
+                disk_path: None,
+                interval: DEFAULT_INTERVAL,
+                icons: false,
+                borderless: true,
+            }))
+        );
+    }
+
+    #[test]
+    fn help_mentions_borderless_flag() {
+        assert!(help_text().contains("--borderless"));
+    }
 }

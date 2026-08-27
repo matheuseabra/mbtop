@@ -37,6 +37,8 @@ pub struct Stats<'a> {
     pub uptime_seconds: u64,
     /// Use compact Unicode glyphs instead of text labels.
     pub icons: bool,
+    /// Omit the dashboard's outer border.
+    pub borderless: bool,
 }
 
 /// Owns the system handles and derived state between samples.
@@ -129,6 +131,7 @@ impl App {
             network: self.network_rate,
             uptime_seconds: System::uptime(),
             icons: self.config.icons,
+            borderless: self.config.borderless,
         }
     }
 }
@@ -145,6 +148,7 @@ mod tests {
             disk_path: None,
             interval: DEFAULT_INTERVAL,
             icons: false,
+            borderless: false,
         }
     }
 
@@ -175,6 +179,7 @@ mod tests {
             disk_path: Some(std::path::PathBuf::from("/")),
             interval: Duration::from_secs(1),
             icons: false,
+            borderless: false,
         };
         let mut app = App::new(config);
         app.sample();
