@@ -260,7 +260,7 @@ fn muted_style() -> Style {
 }
 
 fn label_style() -> Style {
-    Style::default().fg(Color::Gray)
+    default_style()
 }
 
 fn metric_style(icons: bool) -> Style {
@@ -488,5 +488,10 @@ mod tests {
             ],
             ["▣", "▥", "▭", "≋", "↕"]
         );
+    }
+
+    #[test]
+    fn default_labels_inherit_the_terminal_foreground() {
+        assert_eq!(label_style().fg, Some(Color::Reset));
     }
 }
