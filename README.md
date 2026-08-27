@@ -15,7 +15,7 @@
 - uptime and CPU count
 
 
-The UI inherits the terminal's default foreground and background. It uses only semantic ANSI palette colors for muted and warning states, so it stays at home in a custom terminal theme. The compact card needs at least `36×8`; if a pane shrinks below that, mbtop centers a resize hint until there is room again.
+The UI inherits the terminal's default foreground and background for all text. Its charts use only semantic ANSI palette colors, so it stays at home in a custom terminal theme. The compact card needs at least `36×8`; if a pane shrinks below that, mbtop centers a resize hint until there is room again.
 
 The renderer uses [Ratatui](https://ratatui.rs/) primitives for the CPU sparkline, memory/disk gauges, rounded borders, and resize-aware layout. See [the design research notes](docs/terminal-ui-research.md) for the comparison with btop's graph and theme choices.
 

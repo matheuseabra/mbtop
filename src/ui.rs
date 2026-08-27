@@ -169,7 +169,7 @@ fn render_cpu(frame: &mut Frame, area: Rect, cpu: f32, history: &VecDeque<f32>, 
                 format!("{} ", metric_name(Metric::Cpu, icons)),
                 metric_style(icons),
             ),
-            Span::styled(format!("{cpu:>5.1}%"), value_style(cpu)),
+            Span::styled(format!("{cpu:>5.1}%"), value_style()),
         ])),
         value_area,
     );
@@ -205,7 +205,7 @@ fn render_gauge(
                 format!("{} ", metric_name(metric, icons)),
                 metric_style(icons),
             ),
-            Span::styled(value, value_style(percent)),
+            Span::styled(value, value_style()),
         ]))
         .ratio(f64::from((percent / 100.0).clamp(0.0, 1.0)))
         .filled_symbol("━")
@@ -254,9 +254,7 @@ fn title_style() -> Style {
 }
 
 fn muted_style() -> Style {
-    Style::default()
-        .fg(Color::DarkGray)
-        .add_modifier(Modifier::DIM)
+    default_style().add_modifier(Modifier::DIM)
 }
 
 fn label_style() -> Style {
@@ -272,8 +270,8 @@ fn metric_style(icons: bool) -> Style {
     }
 }
 
-fn value_style(percent: f32) -> Style {
-    Style::default().fg(gradient_color(percent))
+fn value_style() -> Style {
+    default_style()
 }
 
 fn gradient_color(percent: f32) -> Color {
@@ -493,5 +491,12 @@ mod tests {
     #[test]
     fn default_labels_inherit_the_terminal_foreground() {
         assert_eq!(label_style().fg, Some(Color::Reset));
+    }
+
+    #[test]
+    fn all_text_styles_inherit_the_terminal_foreground() {
+        for style in [title_style(), muted_style(), label_style(), value_style()] {
+            assert_eq!(style.fg, Some(Color::Reset));
+        }
     }
 }
