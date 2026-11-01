@@ -12,7 +12,7 @@ categories = ["command-line-utilities", "os"]
 [dependencies]
 crossterm = "0.29"
 ratatui = { version = "0.30", default-features = false, features = ["crossterm"] }
-sysinfo = "0.39"
+sysinfo = "0.40"
 
 [lints.rust]
 unsafe_code = "forbid"
